@@ -1,6 +1,14 @@
 package edu.austral.ingsis.math;
 
+import edu.austral.ingsis.math.composite.Function;
+import edu.austral.ingsis.math.composite.Value;
+import edu.austral.ingsis.math.composite.Variable;
+import edu.austral.ingsis.math.composite.operand.DivOperand;
+import edu.austral.ingsis.math.composite.operand.MultOperand;
+import edu.austral.ingsis.math.composite.operand.ParenthesisOperand;
 import org.junit.Test;
+
+import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -24,8 +32,10 @@ public class ResolutionWithVariablesTest {
     @Test
     public void shouldResolveFunction2() {
         final Double result = 3d;
+        final Function f = new DivOperand(new Value(12.0),new Variable("div"));
+        final double expected = f.calculate(Map.of("div",4.0));
 
-        assertThat(result, equalTo(3d));
+        assertThat(result, equalTo(expected));
     }
 
     /**
@@ -34,8 +44,11 @@ public class ResolutionWithVariablesTest {
     @Test
     public void shouldResolveFunction3() {
         final Double result = 12d;
+        final Function division = new DivOperand(new Value(9.0),new Variable("x"));
+        final Function f = new MultOperand(new ParenthesisOperand(division),new Variable("y"));
+        final double expected = f.calculate(Map.of("x",3.0,"y",4.0));
 
-        assertThat(result, equalTo(12d));
+        assertThat(result, equalTo(expected));
     }
 
     /**
