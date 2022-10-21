@@ -1,5 +1,7 @@
 package edu.austral.ingsis.math.composite;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class Variable implements Function {
@@ -14,6 +16,11 @@ public class Variable implements Function {
     @Override
     public double calculate(Map<String, Double> map) {
         return map.get(symbol);
+    }
+
+    @Override
+    public List<String> listVariables() {
+        return List.of(symbol);
     }
 
 

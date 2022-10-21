@@ -2,9 +2,8 @@ package edu.austral.ingsis.math;
 
 import edu.austral.ingsis.math.composite.Function;
 import edu.austral.ingsis.math.composite.Value;
-import edu.austral.ingsis.math.composite.operand.DivOperand;
-import edu.austral.ingsis.math.composite.operand.ParenthesisOperand;
-import edu.austral.ingsis.math.composite.operand.PowOperand;
+import edu.austral.ingsis.math.composite.Variable;
+import edu.austral.ingsis.math.composite.operand.*;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -53,7 +52,7 @@ public class PrintTest {
         final String expected = "(27 / 6) ^ 2";
         final Function div = new ParenthesisOperand(new DivOperand(new Value(27.0),new Value(6.0)));
         final Function f = new PowOperand(div,new Value(2.0));
-        final String result = expected;
+        final String result = f.toString();
 
         assertThat(result, equalTo(expected));
     }
@@ -64,7 +63,8 @@ public class PrintTest {
     @Test
     public void shouldPrintFunction6() {
         final String expected = "|value| - 8";
-        final String result = expected;
+        final Function f = new SubtOperand(new ModuleOperand(new Variable("value")),new Value(8.0));
+        final String result = f.toString();
 
         assertThat(result, equalTo(expected));
     }

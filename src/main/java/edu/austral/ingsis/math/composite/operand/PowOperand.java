@@ -2,6 +2,8 @@ package edu.austral.ingsis.math.composite.operand;
 
 import edu.austral.ingsis.math.composite.Function;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class PowOperand implements Function {
@@ -22,5 +24,12 @@ public class PowOperand implements Function {
     @Override
     public String toString() {
         return f1.toString() + " ^ " + f2.toString();
+    }
+
+    @Override
+    public List<String> listVariables() {
+        List<String> toReturn = new ArrayList<>(f1.listVariables());
+        toReturn.addAll(f2.listVariables());
+        return toReturn;
     }
 }

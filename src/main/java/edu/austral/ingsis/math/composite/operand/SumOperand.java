@@ -2,6 +2,8 @@ package edu.austral.ingsis.math.composite.operand;
 
 import edu.austral.ingsis.math.composite.Function;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class SumOperand implements Function {
@@ -18,6 +20,13 @@ public class SumOperand implements Function {
     @Override
     public double calculate(Map<String, Double> map) {
         return f1.calculate(map) + f2.calculate(map);
+    }
+
+    @Override
+    public List<String> listVariables() {
+        List<String> toReturn = new ArrayList<>(f1.listVariables());
+        toReturn.addAll(f2.listVariables());
+        return toReturn;
     }
 
     @Override

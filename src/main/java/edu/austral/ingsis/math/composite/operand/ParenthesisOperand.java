@@ -3,6 +3,8 @@ package edu.austral.ingsis.math.composite.operand;
 import edu.austral.ingsis.math.composite.Function;
 import edu.austral.ingsis.math.composite.Variable;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class ParenthesisOperand implements Function {
@@ -21,5 +23,11 @@ public class ParenthesisOperand implements Function {
     @Override
     public String toString() {
         return "(" + f1.toString() + ")";
+    }
+
+    @Override
+    public List<String> listVariables() {
+        List<String> toReturn = new ArrayList<>(f1.listVariables());
+        return toReturn;
     }
 }

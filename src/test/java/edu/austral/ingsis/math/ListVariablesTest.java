@@ -1,5 +1,11 @@
 package edu.austral.ingsis.math;
 
+import edu.austral.ingsis.math.composite.Function;
+import edu.austral.ingsis.math.composite.Value;
+import edu.austral.ingsis.math.composite.Variable;
+import edu.austral.ingsis.math.composite.operand.DivOperand;
+import edu.austral.ingsis.math.composite.operand.MultOperand;
+import edu.austral.ingsis.math.composite.operand.ParenthesisOperand;
 import org.junit.Test;
 
 import java.util.Collections;
@@ -27,7 +33,8 @@ public class ListVariablesTest {
      */
     @Test
     public void shouldListVariablesFunction2() {
-        final List<String> result = Collections.emptyList();
+        final Function f = new DivOperand(new Value(12.0),new Variable("div"));
+        final List<String> result = f.listVariables();
 
         assertThat(result, containsInAnyOrder("div"));
     }
@@ -37,7 +44,9 @@ public class ListVariablesTest {
      */
     @Test
     public void shouldListVariablesFunction3() {
-        final List<String> result = Collections.emptyList();
+        final Function division = new DivOperand(new Value(9.0),new Variable("x"));
+        final Function f = new MultOperand(new ParenthesisOperand(division),new Variable("y"));
+        final List<String> result = f.listVariables();
 
         assertThat(result, containsInAnyOrder("x", "y"));
     }

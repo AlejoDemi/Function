@@ -1,5 +1,6 @@
 package edu.austral.ingsis.math.composite;
 
+import java.util.List;
 import java.util.Map;
 
 public class Value implements Function{
@@ -16,7 +17,13 @@ public class Value implements Function{
     }
 
     @Override
+    public List<String> listVariables() {
+        return List.of();
+    }
+
+    @Override
     public String toString() {
+
         return value % 1 == 0 ? "" + (int) value : "" + value;
     }
 }

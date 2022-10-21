@@ -2,6 +2,8 @@ package edu.austral.ingsis.math.composite.operand;
 
 import edu.austral.ingsis.math.composite.Function;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class ModuleOperand implements  Function{
@@ -20,5 +22,10 @@ public class ModuleOperand implements  Function{
 
     public String toString(){
         return "|"+f1.toString()+"|";
+    }
+
+    @Override
+    public List<String> listVariables() {
+        return new ArrayList<>(f1.listVariables());
     }
 }
