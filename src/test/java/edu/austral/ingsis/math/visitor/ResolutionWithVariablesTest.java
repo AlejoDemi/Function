@@ -1,11 +1,9 @@
-package edu.austral.ingsis.math;
+package edu.austral.ingsis.math.visitor;
 
 import edu.austral.ingsis.math.composite.Function;
 import edu.austral.ingsis.math.composite.Value;
 import edu.austral.ingsis.math.composite.Variable;
-import edu.austral.ingsis.math.composite.operand.DivOperand;
-import edu.austral.ingsis.math.composite.operand.MultOperand;
-import edu.austral.ingsis.math.composite.operand.ParenthesisOperand;
+import edu.austral.ingsis.math.composite.operand.*;
 import org.junit.Test;
 
 import java.util.Map;
@@ -21,7 +19,8 @@ public class ResolutionWithVariablesTest {
      */
     @Test
     public void shouldResolveFunction1() {
-        final Double result = 4d;
+        Function f = new SumOperand(new Value(1.0),new Variable("x"));
+        final Double result = f.calculate(Map.of("x",3.0));
 
         assertThat(result, equalTo(4d));
     }
@@ -56,7 +55,9 @@ public class ResolutionWithVariablesTest {
      */
     @Test
     public void shouldResolveFunction4() {
-        final Double result = 27d;
+        Function div = new ParenthesisOperand(new DivOperand(new Value(27.0),new Variable("a")));
+        Function f = new PowOperand(div,new Variable("b"));
+        final Double result = f.calculate(Map.of("a",9.0,"b",3.0));
 
         assertThat(result, equalTo(27d));
     }
@@ -66,7 +67,9 @@ public class ResolutionWithVariablesTest {
      */
     @Test
     public void shouldResolveFunction5() {
-        final Double result = 6d;
+        Function exp = new ParenthesisOperand(new DivOperand(new Value(1.0),new Value(2.0)));
+        Function f  = new PowOperand(new Variable("z"),exp);
+        final Double result = f.calculate(Map.of("z",36.0));
 
         assertThat(result, equalTo(6d));
     }
@@ -75,18 +78,9 @@ public class ResolutionWithVariablesTest {
      * Case |value| - 8 where value = 8
      */
     @Test
-    public void shouldResolveFunction6() {
-        final Double result = 0d;
-
-        assertThat(result, equalTo(0d));
-    }
-
-    /**
-     * Case |value| - 8 where value = 8
-     */
-    @Test
     public void shouldResolveFunction7() {
-        final Double result = 0d;
+        Function f = new SubtOperand(new ModuleOperand(new Variable("value")),new Value(8.0));
+        final Double result = f.calculate(Map.of("value",8.0));
 
         assertThat(result, equalTo(0d));
     }
@@ -96,7 +90,9 @@ public class ResolutionWithVariablesTest {
      */
     @Test
     public void shouldResolveFunction8() {
-        final Double result = 24d;
+        Function subt = new ParenthesisOperand(new SubtOperand(new Value(5.0),new Variable("i")));
+        Function f = new MultOperand(subt,new Value(8.0));
+        final Double result = f.calculate(Map.of("i",2.0));
 
         assertThat(result, equalTo(24d));
     }

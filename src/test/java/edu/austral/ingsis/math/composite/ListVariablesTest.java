@@ -1,11 +1,9 @@
-package edu.austral.ingsis.math;
+package edu.austral.ingsis.math.composite;
 
 import edu.austral.ingsis.math.composite.Function;
 import edu.austral.ingsis.math.composite.Value;
 import edu.austral.ingsis.math.composite.Variable;
-import edu.austral.ingsis.math.composite.operand.DivOperand;
-import edu.austral.ingsis.math.composite.operand.MultOperand;
-import edu.austral.ingsis.math.composite.operand.ParenthesisOperand;
+import edu.austral.ingsis.math.composite.operand.*;
 import org.junit.Test;
 
 import java.util.Collections;
@@ -23,7 +21,8 @@ public class ListVariablesTest {
      */
     @Test
     public void shouldListVariablesFunction1() {
-        final List<String> result = Collections.emptyList();
+        Function f = new SumOperand(new Value(1.0),new Value(6.0));
+        final List<String> result = f.listVariables();
 
         assertThat(result, empty());
     }
@@ -56,7 +55,9 @@ public class ListVariablesTest {
      */
     @Test
     public void shouldListVariablesFunction4() {
-        final List<String> result = Collections.emptyList();
+        Function div = new ParenthesisOperand(new DivOperand(new Value(27.0),new Variable("a")));
+        Function f = new PowOperand(div,new Variable("b"));
+        final List<String> result = f.listVariables();
 
         assertThat(result, containsInAnyOrder("a", "b"));
     }
@@ -66,7 +67,9 @@ public class ListVariablesTest {
      */
     @Test
     public void shouldListVariablesFunction5() {
-        final List<String> result = Collections.emptyList();
+        Function exp = new ParenthesisOperand(new DivOperand(new Value(1.0),new Value(2.0)));
+        Function f  = new PowOperand(new Variable("z"),exp);
+        final List<String> result = f.listVariables();
 
         assertThat(result, containsInAnyOrder("z"));
     }
@@ -76,17 +79,8 @@ public class ListVariablesTest {
      */
     @Test
     public void shouldListVariablesFunction6() {
-        final List<String> result = Collections.emptyList();
-
-        assertThat(result, containsInAnyOrder("value"));
-    }
-
-    /**
-     * Case |value| - 8
-     */
-    @Test
-    public void shouldListVariablesFunction7() {
-        final List<String> result = Collections.emptyList();
+        Function f = new SubtOperand(new ModuleOperand(new Variable("value")),new Value(8.0));
+        final List<String> result = f.listVariables();
 
         assertThat(result, containsInAnyOrder("value"));
     }
@@ -96,7 +90,9 @@ public class ListVariablesTest {
      */
     @Test
     public void shouldListVariablesFunction8() {
-        final List<String> result = Collections.emptyList();
+        Function subt = new ParenthesisOperand(new SubtOperand(new Value(5.0),new Variable("i")));
+        Function f = new MultOperand(subt,new Value(8.0));
+        final List<String> result = f.listVariables();
 
         assertThat(result, containsInAnyOrder("i"));
     }

@@ -1,4 +1,4 @@
-package edu.austral.ingsis.math;
+package edu.austral.ingsis.math.composite;
 
 import edu.austral.ingsis.math.composite.Function;
 import edu.austral.ingsis.math.composite.Value;
@@ -16,8 +16,9 @@ public class PrintTest {
      */
     @Test
     public void shouldPrintFunction1() {
+        Function f = new SumOperand(new Value(1.0),new Value(6.0));
         final String expected = "1 + 6";
-        final String result = expected;
+        final String result = f.toString();
 
         assertThat(result, equalTo(expected));
     }
@@ -27,8 +28,9 @@ public class PrintTest {
      */
     @Test
     public void shouldPrintFunction2() {
+        final Function f = new DivOperand(new Value(12.0),new Value(2));
         final String expected = "12 / 2";
-        final String result = expected;
+        final String result = f.toString();
 
         assertThat(result, equalTo(expected));
     }
@@ -38,8 +40,10 @@ public class PrintTest {
      */
     @Test
     public void shouldPrintFunction3() {
+        final Function division = new DivOperand(new Value(9.0),new Value(2.0));
+        final Function f = new MultOperand(new ParenthesisOperand(division),new Value(3.0));
         final String expected = "(9 / 2) * 3";
-        final String result = expected;
+        final String result = f.toString();
 
         assertThat(result, equalTo(expected));
     }
@@ -75,7 +79,8 @@ public class PrintTest {
     @Test
     public void shouldPrintFunction7() {
         final String expected = "|value| - 8";
-        final String result = expected;
+        Function f = new SubtOperand(new ModuleOperand(new Variable("value")),new Value(8.0));
+        final String result = f.toString();
 
         assertThat(result, equalTo(expected));
     }
@@ -86,7 +91,9 @@ public class PrintTest {
     @Test
     public void shouldPrintFunction8() {
         final String expected = "(5 - i) * 8";
-        final String result = expected;
+        Function subt = new ParenthesisOperand(new SubtOperand(new Value(5.0),new Variable("i")));
+        Function f = new MultOperand(subt,new Value(8.0));
+        final String result = f.toString();
 
         assertThat(result, equalTo(expected));
     }
