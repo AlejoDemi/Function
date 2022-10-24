@@ -1,9 +1,9 @@
 package edu.austral.ingsis.math.visitor;
-
-import edu.austral.ingsis.math.composite.Function;
-import edu.austral.ingsis.math.composite.Value;
-import edu.austral.ingsis.math.composite.Variable;
-import edu.austral.ingsis.math.composite.operand.*;
+import edu.austral.ingsis.math.visitor.visitables.Value;
+import edu.austral.ingsis.math.visitor.visitables.Variable;
+import edu.austral.ingsis.math.visitor.visitables.operand.*;
+import edu.austral.ingsis.math.visitor.visitors.CalculateVisitor;
+import edu.austral.ingsis.math.visitor.visitors.Visitor;
 import org.junit.Test;
 
 import java.util.Map;
@@ -20,7 +20,9 @@ public class ResolutionWithVariablesTest {
     @Test
     public void shouldResolveFunction1() {
         Function f = new SumOperand(new Value(1.0),new Variable("x"));
-        final Double result = f.calculate(Map.of("x",3.0));
+        final Visitor<Double> visitor = new CalculateVisitor(Map.of("x",3.0));
+        Double result=f.accept(visitor);
+
 
         assertThat(result, equalTo(4d));
     }
@@ -32,7 +34,9 @@ public class ResolutionWithVariablesTest {
     public void shouldResolveFunction2() {
         final Double result = 3d;
         final Function f = new DivOperand(new Value(12.0),new Variable("div"));
-        final double expected = f.calculate(Map.of("div",4.0));
+        final Visitor<Double> visitor = new CalculateVisitor(Map.of("div",4.0));
+
+        final double expected = f.accept(visitor);
 
         assertThat(result, equalTo(expected));
     }
@@ -45,7 +49,9 @@ public class ResolutionWithVariablesTest {
         final Double result = 12d;
         final Function division = new DivOperand(new Value(9.0),new Variable("x"));
         final Function f = new MultOperand(new ParenthesisOperand(division),new Variable("y"));
-        final double expected = f.calculate(Map.of("x",3.0,"y",4.0));
+        final Visitor<Double> visitor = new CalculateVisitor(Map.of("x",3.0,"y",4.0));
+
+        final double expected = f.accept(visitor);
 
         assertThat(result, equalTo(expected));
     }
@@ -57,7 +63,9 @@ public class ResolutionWithVariablesTest {
     public void shouldResolveFunction4() {
         Function div = new ParenthesisOperand(new DivOperand(new Value(27.0),new Variable("a")));
         Function f = new PowOperand(div,new Variable("b"));
-        final Double result = f.calculate(Map.of("a",9.0,"b",3.0));
+        final Visitor<Double> visitor = new CalculateVisitor(Map.of("a",9.0,"b",3.0));
+
+        final Double result = f.accept(visitor);
 
         assertThat(result, equalTo(27d));
     }
@@ -69,7 +77,9 @@ public class ResolutionWithVariablesTest {
     public void shouldResolveFunction5() {
         Function exp = new ParenthesisOperand(new DivOperand(new Value(1.0),new Value(2.0)));
         Function f  = new PowOperand(new Variable("z"),exp);
-        final Double result = f.calculate(Map.of("z",36.0));
+        final Visitor<Double> visitor = new CalculateVisitor(Map.of("z",36.0));
+
+        final Double result = f.accept(visitor);
 
         assertThat(result, equalTo(6d));
     }
@@ -80,7 +90,9 @@ public class ResolutionWithVariablesTest {
     @Test
     public void shouldResolveFunction7() {
         Function f = new SubtOperand(new ModuleOperand(new Variable("value")),new Value(8.0));
-        final Double result = f.calculate(Map.of("value",8.0));
+        final Visitor<Double> visitor = new CalculateVisitor(Map.of("value",8.0));
+
+        final Double result = f.accept(visitor);
 
         assertThat(result, equalTo(0d));
     }
@@ -92,7 +104,9 @@ public class ResolutionWithVariablesTest {
     public void shouldResolveFunction8() {
         Function subt = new ParenthesisOperand(new SubtOperand(new Value(5.0),new Variable("i")));
         Function f = new MultOperand(subt,new Value(8.0));
-        final Double result = f.calculate(Map.of("i",2.0));
+        final Visitor<Double> visitor = new CalculateVisitor(Map.of("i",2.0));
+
+        final Double result = f.accept(visitor);
 
         assertThat(result, equalTo(24d));
     }
